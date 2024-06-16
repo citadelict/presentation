@@ -3,28 +3,34 @@
   remote_user: ubuntu
   become: true
   become_user: root
-  ansible.builtin.apt:
-     name: "apache2"
-     state: present
+  tasks: 
+     - name: install Apache 
+       apt:
+          name: "apache2"
+          state: present
      
 - name: Install git
   hosts: webservers
   remote_user: ubuntu
   become: true
   become_user: root
-  ansible.builtin.apt:
-     name: "git"
-     state: present
+  tasks:
+      - name: Install git
+        apt:
+            name: "git"
+            state: present
 
 - name: Clone github repo
   hosts: webservers
   remote_user: ubuntu
   become: true
   become_user: root
-  ansible.builtin.git:
-     repo: https://github.com/citadelict/tooling2.git
-     dest: /var/www/html
-     force: yes
+  tasks: 
+       - name: clone github 
+         git:
+            repo: https://github.com/citadelict/tooling2.git
+            dest: /var/www/html
+            force: yes
 
 - name: copy Html content to /var/www/html
   hosts: webservers
@@ -38,19 +44,24 @@
   remote_user: ubuntu
   become: true
   become_user: root
-  ansible.builtin.filr:
-     path: /var/www/html/html
-     state: absent
+  tasks:
+       - name: remove tooling/
+         file:
+             path: /var/www/html/html
+             state: absent
 
 - name: Start Apache2 
   hosts: webservers
   remote_user: ubuntu
   become: true
   become_user: root
-  ansible.builtin.service:
-     name: apache2
-     state: started
+  tasks: 
+       - name : Start 
+         service:
+                name: apache2
+                state: started
 
+     
 
 
   
